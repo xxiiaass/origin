@@ -7,6 +7,14 @@
 var app = require('../app');
 var debug = require('debug')('cdn-origin:server');
 var http = require('http');
+var https = require("https")
+var fs = require("fs")
+var path = require("path")
+
+var options = {
+  key: fs.readFileSync(path.join(__dirname, '../cert/pem.pem')),
+  cert: fs.readFileSync(path.join(__dirname, '../cert/crt.crt'))
+}
 
 /**
  * Get port from environment and store in Express.
@@ -20,10 +28,14 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+var httpsServer = https.createServer(options, app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
+
+httpsServer.listen(443);
+httpsServer.on('error', onError);
 
 server.listen(port);
 server.on('error', onError);
