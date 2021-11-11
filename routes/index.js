@@ -9,7 +9,7 @@ router.get('/push', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/origin/*', function(req, res, next) {
-  res.json({ok:true});
+router.get('/origin/:index', function(req, res, next) {
+  res.json({index: req.params.index});
 });
 module.exports = router;
